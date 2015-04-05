@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>TicTacToe</title>
+</head>
+<body>
+<!-- Include Scala.js compiled code -->
+<script type="text/javascript" src="./target/scala-2.11/tictactoe-fastopt.js"></script>
+<script type="text/javascript" src="./target/scala-2.11/tictactoe-jsdeps.js"></script>
+<script type="text/javascript">
+      TicTacToeApp().main();
+
+
+</script>
+<table>
+    <tr>
+        <td>Your move: <input id="move" size="1"/></td>
+        <td>
+            <table>
+                <tr>
+                    <td>
+                        <div id="cell0"/>
+                    </td>
+                    <td>
+                        <div id="cell1"/>
+                    </td>
+                    <td>
+                        <div id="cell2"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div id="cell3"/>
+                    </td>
+                    <td>
+                        <div id="cell4"/>
+                    </td>
+                    <td>
+                        <div id="cell5"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div id="cell6"/>
+                    </td>
+                    <td>
+                        <div id="cell7"/>
+                    </td>
+                    <td>
+                        <div id="cell8"/>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+</body>
+</html>
