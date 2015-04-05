@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<!-- Include Scala.js compiled code -->
+<script type="text/javascript" src="./target/scala-2.11/tictactoe-fastopt.js"></script>
+<script type="text/javascript" src="./target/scala-2.11/tictactoe-jsdeps.js"></script>
+<script type="text/javascript">
+      HumanVsComputerApp().main();
+</script>
+
+<textarea id="input">function move(x) { return x * 3 ; }</textarea>
+<textarea id="output" disabled="true">Output goes here</textarea>
+<button id="startGame" disabled="true">Go</button>
+</body>
+</html>

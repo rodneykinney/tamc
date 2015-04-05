@@ -2,7 +2,7 @@ import scala.scalajs.js.JSApp
 
 import org.scalajs.jquery.{JQueryEventObject, jQuery}
 
-object TicTacToeApp extends JSApp {
+object HumanVsHumanApp extends JSApp {
   def main(): Unit = {
     jQuery(setupUI _)
   }
@@ -23,7 +23,7 @@ object TicTacToeApp extends JSApp {
         gameState(cell) = player
         player = 3 - player
         renderGame(gameState)
-      case _ => ()  
+      case _ => ()
     }
     jQuery("#move").value("")
   }
