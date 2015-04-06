@@ -12,8 +12,51 @@
       HumanVsComputerApp().main();
 </script>
 
-<textarea id="input">function move(x) { return x * 3 ; }</textarea>
-<textarea id="output" disabled="true">Output goes here</textarea>
-<button id="startGame" disabled="true">Go</button>
+<textarea id="input">function move(unoccupied, occupiedByMe, occupiedByOpponent) {
+  return unoccupied(Math.round(Math.random() * unoccupied.length));
+}</textarea>
+<button id="startGame">Start Game</button>
+<table>
+    <tr>
+        <td>Your move: <input id="move" size="1"/></td>
+        <td>
+            <table>
+                <tr>
+                    <td>
+                        <div id="cell0"/>
+                    </td>
+                    <td>
+                        <div id="cell1"/>
+                    </td>
+                    <td>
+                        <div id="cell2"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div id="cell3"/>
+                    </td>
+                    <td>
+                        <div id="cell4"/>
+                    </td>
+                    <td>
+                        <div id="cell5"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div id="cell6"/>
+                    </td>
+                    <td>
+                        <div id="cell7"/>
+                    </td>
+                    <td>
+                        <div id="cell8"/>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
 </body>
 </html>

@@ -1,6 +1,7 @@
 import scala.scalajs.js.JSApp
 
 import org.scalajs.jquery.{JQueryEventObject, jQuery}
+import TicTacToe._
 
 object HumanVsHumanApp extends JSApp {
   def main(): Unit = {
@@ -8,31 +9,27 @@ object HumanVsHumanApp extends JSApp {
   }
 
   def setupUI(): Unit = {
-    renderGame(gameState)
-
     jQuery("#move").keydown(addMove _)
+    jQuery("#startGame").click(startGame _)
   }
 
-  var player = 1
-  var gameState = Seq.fill(9)(0).toArray
+  var game: Game = _
 
-  def addMove(data: JQueryEventObject) = {
-    val move: Int = data.which.toChar - '1'
-    move match {
-      case cell if cell >= 0 && cell < 9 && gameState(cell) == 0 =>
-        gameState(cell) = player
-        player = 3 - player
-        renderGame(gameState)
-      case _ => ()
-    }
+  def startGame(event: JQueryEventObject) = {
+    game = new Game()
+    jQuery("#move").prop("disabled",false)
+  }
+
+  def addMove(event: JQueryEventObject) = {
+    val move: Int = event.which.toChar - '1'
+    game.move(move)
     jQuery("#move").value("")
-  }
-
-  val cell = "-XO"
-
-  def renderGame(state: Seq[Int]) = {
-    for ((player, i) <- state.zipWithIndex) {
-      jQuery(s"#cell$i").text(cell(player).toString)
+    game.result match {
+      case FIRST_PLAYER_WIN =>
+        jQuery("#move").prop("disabled",true)
+      case SECOND_PLAYER_WIN =>
+        jQuery("#move").prop("disabled",true)
+      case _ => ()
     }
   }
 }
