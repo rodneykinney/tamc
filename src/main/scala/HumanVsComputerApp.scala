@@ -2,10 +2,10 @@ import TicTacToe._
 import org.scalajs.jquery._
 
 import scala.scalajs.js
-import scala.scalajs.js._
+import scala.scalajs.js.annotation.JSExport
 import scala.util.Random
 
-object HumanVsComputerApp extends JSApp {
+object HumanVsComputerApp extends js.JSApp {
 
   val rand = new Random()
 
@@ -17,13 +17,13 @@ object HumanVsComputerApp extends JSApp {
     jQuery("#startGame").click(startGame _)
     jQuery("#input").keyup(validateInput _)
     jQuery("#move").keydown(addMove _)
-
+    validateInput(null)
   }
 
   def validateInput(event: JQueryEventObject): Unit = {
     try {
       val code = jQuery("#input").value
-      eval( s"""var chooseMove = ${code.toString};""")
+      js.eval( s"""var chooseMove = ${code.toString};""")
       jQuery("#startGame").prop("disabled", false)
     }
     catch {
@@ -35,12 +35,10 @@ object HumanVsComputerApp extends JSApp {
 
   def computerPlayerMove(state: Seq[Int]) = {
     val cells = state.zipWithIndex
-    val unoccupied = cells.filter(_._1 == 0).map(_._2)
-    val occupiedByMe = cells.filter(_._1 == 3 - computerPlayer).map(_._2)
-    val occupiedByOpponent = cells.filter(_._1 == computerPlayer).map(_._2)
-    val move = js.Dynamic.global.chooseMove(unoccupied, occupiedByMe, occupiedByOpponent)
+    val move = js.Dynamic.global.chooseMove(
+      new Board(state.toArray, computerPlayer).asInstanceOf[js.Any])
       .asInstanceOf[Int]
-    move
+    move - 1
   }
 
   var game: Game = _
@@ -58,24 +56,41 @@ object HumanVsComputerApp extends JSApp {
 
   def checkGameEnd = {
     game.result match {
-      case FIRST_PLAYER_WIN =>
-        jQuery("#move").prop("disabled", true)
-        true
-      case SECOND_PLAYER_WIN =>
-        jQuery("#move").prop("disabled", true)
-        true
+      case IN_PROGRESS => false
       case _ =>
-        false
+        jQuery("#move").prop("disabled", true)
+        true
     }
   }
 
   def startGame(event: JQueryEventObject) = {
     game = new Game()
-    //    if (rand.nextDouble() < 0.5) {
-    //      game.move(Dynamic.global.chooseMove(game.gameState))
-    //    }
+    jQuery("#move").text("")
+    jQuery("#move").prop("disabled", false)
+    if (rand.nextDouble() < 0.5) {
+      computerPlayer = 1
+      game.move(computerPlayerMove(game.gameState))
+    }
+  }
+}
+
+@JSExport
+class Board(state: Array[Int], computerPlayer: Int) {
+  val cells = state.zipWithIndex.map{case (player,i) => (player, i+1)}
+
+  import js.JSConverters._
+
+  @JSExport
+  def unoccupied = empty.toJSArray
+
+  val empty = cells.filter(_._1 == 0).map(_._2)
+  val mine = cells.filter(_._1 == 3 - computerPlayer).map(_._2)
+  val occupiedByOpponent = cells.filter(_._1 == computerPlayer).map(_._2)
+
+  @JSExport
+  def randomMove() = {
+    empty(HumanVsComputerApp.rand.nextInt(empty.size))
   }
 
-  js.Dynamic.global.e
 
 }
