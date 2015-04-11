@@ -7,12 +7,16 @@ class Game {
   board.update(gameState)
   var result = IN_PROGRESS
 
-  def move(cell: Int): Unit = cell match {
-    case _ if cell >= 0 && cell < 9 && gameState(cell) == 0 =>
+  def validMove(cell: Int): Boolean = cell >= 0 && cell < 9 && gameState(cell) == 0
+
+  def move(cell: Int): Boolean = cell match {
+    case _ if validMove(cell) =>
       gameState(cell) = player
       player = 3 - player
       board.update(gameState)
       result = outcome(gameState)
-    case _ => ()
+      true
+    case _ => false
   }
+
 }

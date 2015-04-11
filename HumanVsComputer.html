@@ -10,50 +10,88 @@
 <script type="text/javascript" src="./target/scala-2.11/tictactoe-jsdeps.js"></script>
 <script type="text/javascript">
       HumanVsComputerApp().main();
-</script>
 
-<textarea id="input">function move(board) {
-    return board.randomMove();
-}</textarea>
-<button id="startGame">Start Game</button>
+
+
+
+
+
+
+
+
+
+
+</script>
 <table>
     <tr>
-        <td>Your move: <input id="move" size="1"/></td>
+        <td>
+            <textarea id="input" rows="25" cols="80">function move(board) {
+  return board.selectRandom(board.empty);
+}</textarea>
+        </td>
         <td>
             <table>
                 <tr>
-                    <td>
-                        <div id="cell0"/>
-                    </td>
-                    <td>
-                        <div id="cell1"/>
-                    </td>
-                    <td>
-                        <div id="cell2"/>
-                    </td>
+                    <table>
+                        <tr>
+                            <td>
+                                <div id="status">Press Start Game to begin</div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td align="center">
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <div id="cell0">1</div>
+                                        </td>
+                                        <td>
+                                            <div id="cell1">2</div>
+                                        </td>
+                                        <td>
+                                            <div id="cell2">3</div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div id="cell3">4</div>
+                                        </td>
+                                        <td>
+                                            <div id="cell4">5</div>
+                                        </td>
+                                        <td>
+                                            <div id="cell5">6</div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div id="cell6">7</div>
+                                        </td>
+                                        <td>
+                                            <div id="cell7">8</div>
+                                        </td>
+                                        <td>
+                                            <div id="cell8">9</div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <button id="startGame">Start Game</button>
+                                Your move: <input id="move" size="1"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                        </tr>
+                    </table>
                 </tr>
                 <tr>
-                    <td>
-                        <div id="cell3"/>
-                    </td>
-                    <td>
-                        <div id="cell4"/>
-                    </td>
-                    <td>
-                        <div id="cell5"/>
-                    </td>
                 </tr>
-                <tr>
-                    <td>
-                        <div id="cell6"/>
-                    </td>
-                    <td>
-                        <div id="cell7"/>
-                    </td>
-                    <td>
-                        <div id="cell8"/>
-                    </td>
-                </tr>
+                <tr></tr>
             </table>
         </td>
     </tr>
