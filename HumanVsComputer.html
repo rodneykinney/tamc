@@ -10,24 +10,22 @@
 <script type="text/javascript" src="./target/scala-2.11/tictactoe-jsdeps.js"></script>
 <script type="text/javascript">
       HumanVsComputerApp().main();
-
-
-
-
-
-
-
-
-
-
-
 </script>
 <table>
     <tr>
         <td>
-            <textarea id="input" rows="25" cols="80">function move(board) {
-  return board.selectRandom(board.empty);
+            <textarea id="input" rows="25" cols="80" style="font-size: 10pt;">function move(board) {
+  return board.chooseRandom(board.empty);
 }</textarea>
+            <!--
+function move(board) {
+  for (i=0;i<board.lines.length;++i) {
+    var line = board.lines[i];
+    if (line.occupiedByMe.length == 2 && line.empty.length == 1) return line.empty[0];
+  }
+  return board.chooseRandom(board.empty);
+}
+            -->
         </td>
         <td>
             <table>
@@ -41,7 +39,7 @@
 
                         <tr>
                             <td align="center">
-                                <table>
+                                <table style="height: 50px; width: 50px;font-size: 24pt;">
                                     <tr>
                                         <td>
                                             <div id="cell0">1</div>
@@ -93,6 +91,28 @@
                 </tr>
                 <tr></tr>
             </table>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div><pre>
+Check all three-in-a-row lines: <b>
+  for (i=0&#59;i&LT;board.lines.length&#59;++i) {
+    var line = board.lines[i];
+    ...
+  }
+            </b>
+Empty spaces in the line: <b>line.empty</b>
+Spaces occupied by computer in the line: <b>line.occupiedByMe</b>
+Spaces occupied by human in the line: <b>line.occupiedByOpponent</b>
+
+Empty spaces on the board: <b>board.empty</b>
+Spaces occupied by computer on the board: <b>board.occupiedByMe</b>
+Spaces occupied by human on the board: <b>board.occupiedByOpponent</b>
+
+Select a random move: <b>board.chooseRandom(...);</b>
+            </pre>
+            </div>
         </td>
     </tr>
 </table>

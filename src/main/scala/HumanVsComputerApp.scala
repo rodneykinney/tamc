@@ -54,6 +54,7 @@ object HumanVsComputerApp extends js.JSApp {
         ex.printStackTrace()
         gameOver(3 - computerPlayer)
     }
+    jQuery("#move").value("")
   }
 
   var game: Game = _
@@ -103,6 +104,9 @@ object HumanVsComputerApp extends js.JSApp {
       computerPlayer = 1
       computerPlayerMove(game.gameState)
     }
+    else {
+      computerPlayer = 2
+    }
   }
 }
 
@@ -123,7 +127,7 @@ class Board(state: Array[Int], computerPlayer: Int) {
   val occupiedByMe = cells.filter(_._1 == computerPlayer).map(_._2).toJSArray
 
   @JSExport
-  def selectRandom(items: js.Array[js.Any]) = {
+  def chooseRandom(items: js.Array[js.Any]) = {
     items(rand.nextInt(items.size))
   }
 
@@ -149,5 +153,5 @@ class Row(cells: Array[(Int, Int)], computerPlayer: Int) {
   @JSExport
   val occupiedByMe = cells.filter(_._1 == computerPlayer).map(_._2).toJSArray
 
-  override def toString = s"Row($cells)"
+  override def toString = s"""Row[${cells.map(x => s"(${x._1},${x._2})").mkString("")}]"""
 }
