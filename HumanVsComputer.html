@@ -102,10 +102,10 @@ function move(board) {
         <td>
             <div><pre>
 Check all three-in-a-row lines: <b>
-                for (i=0&#59;i&LT;board.lines.length&#59;++i) {
-                var line = board.lines[i];
-                ...
-                }
+ for (i=0&#59;i&LT;8&#59;i+=1) {
+   var line = board.lines[i];
+   ...
+  }
             </b>
 Empty spaces in the line: <b>line.empty</b>
 Spaces occupied by computer in the line: <b>line.occupiedByMe</b>

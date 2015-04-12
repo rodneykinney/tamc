@@ -17,7 +17,7 @@ object HumanVsComputerApp extends js.JSApp {
   }
 
   val computerInput: ComputerPlayerInput =
-    new ComputerPlayerInput("input","chooseMove", validateInput)
+    new ComputerPlayerInput("input", "chooseMove", validateInput)
 
   def setupUI(): Unit = {
     jQuery("#startGame").click(startGame _)
@@ -120,6 +120,21 @@ class Board(state: Array[Int], computerPlayer: Int) {
   @JSExport
   def chooseRandom(items: js.Array[js.Any]) = {
     items(rand.nextInt(items.size))
+  }
+
+  @JSExport
+  def isEmpty(cell: Int): Boolean = {
+    cells(cell - 1)._1 == 0
+  }
+
+  @JSExport
+  def isOccupiedByMe(cell: Int): Boolean = {
+    cells(cell - 1)._1 == computerPlayer
+  }
+
+  @JSExport
+  def isOccupiedByOpponent(cell: Int): Boolean = {
+    cells(cell - 1)._1 == 3 - computerPlayer
   }
 
   @JSExport

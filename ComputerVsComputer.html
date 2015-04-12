@@ -118,7 +118,7 @@ function move(board) {
         <td>
             <div><pre>
 Check all three-in-a-row lines: <b>
-  for (i=0&#59;i&LT;board.lines.length&#59;++i) {
+  for (i=0&#59;i&LT;8&#59;i+=1) {
     var line = board.lines[i];
     ...
   }
@@ -126,6 +126,10 @@ Check all three-in-a-row lines: <b>
 Empty spaces in the line: <b>line.empty</b>
 Spaces occupied by computer in the line: <b>line.occupiedByMe</b>
 Spaces occupied by human in the line: <b>line.occupiedByOpponent</b>
+
+Empty spaces on the board: <b>board.empty</b>
+Spaces occupied by computer on the board: <b>board.occupiedByMe</b>
+Spaces occupied by human on the board: <b>board.occupiedByOpponent</b>
 
 Empty spaces on the board: <b>board.empty</b>
 Spaces occupied by computer on the board: <b>board.occupiedByMe</b>
