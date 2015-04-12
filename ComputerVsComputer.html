@@ -9,13 +9,13 @@
 <script type="text/javascript" src="./target/scala-2.11/tictactoe-fastopt.js"></script>
 <script type="text/javascript" src="./target/scala-2.11/tictactoe-jsdeps.js"></script>
 <script type="text/javascript">
-      HumanVsComputerApp().main();
+      ComputerVsComputerApp().main();
 </script>
 <table style="width:100%;">
     <tr>
         <td><a href="HumanVsHuman.html">Human vs Human</a></td>
         <td align="center"><a href="HumanVsComputer.html">Human vs Computer</a></td>
-        <td align="right"><a  href="ComputerVsComputer.html">Computer vs Computer</a></td>
+        <td align="right"><b>Computer vs Computer</b></td>
     </tr>
 </table>
 
@@ -87,8 +87,8 @@ function move(board) {
                         </tr>
                         <tr>
                             <td>
-                                <button id="startGame">Start Game</button>
-                                Your move: <input id="move" size="1" disabled="true"/>
+                                <button id="playGame">Play Game</button><br>
+                                <button id="playMatch">Play Match</button><br>
                             </td>
                         </tr>
                         <tr>
@@ -99,7 +99,7 @@ function move(board) {
                 </tr>
             </table>
         </td>
-        <td>
+        <td align="right    ">
             <textarea id="inputRight" rows="25" cols="80" style="font-size: 10pt;">function move(board) {
   return board.chooseRandom(board.empty);
 }</textarea>

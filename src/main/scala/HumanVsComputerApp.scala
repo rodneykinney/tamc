@@ -16,24 +16,17 @@ object HumanVsComputerApp extends js.JSApp {
     jQuery(setupUI _)
   }
 
+  val computerInput: ComputerPlayerInput =
+    new ComputerPlayerInput("input","chooseMove", validateInput)
+
   def setupUI(): Unit = {
     jQuery("#startGame").click(startGame _)
-    jQuery("#input").keyup(validateInput _)
+    computerInput.setupUI()
     jQuery("#move").keydown(humanPlayerMove _)
-    validateInput(null)
   }
 
-  def validateInput(event: JQueryEventObject): Unit = {
-    try {
-      val code = jQuery("#input").value
-      js.eval( s"""var chooseMove = ${code.toString};""")
-      jQuery("#startGame").prop("disabled", false)
-    }
-    catch {
-      case ex: Exception =>
-        jQuery("#startGame").prop("disabled", true)
-
-    }
+  def validateInput(isValid: Boolean): Unit = {
+    jQuery("#startGame").prop("disabled", !isValid)
   }
 
   def computerPlayerMove(state: Seq[Int]) = {
