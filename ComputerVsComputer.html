@@ -10,7 +10,6 @@
 <script type="text/javascript" src="./target/scala-2.11/tictactoe-jsdeps.js"></script>
 <script type="text/javascript">
       HumanVsComputerApp().main();
-
 </script>
 <table style="width:100%;">
     <tr>
@@ -19,10 +18,11 @@
         <td align="right"><a  href="ComputerVsComputer.html">Computer vs Computer</a></td>
     </tr>
 </table>
+
 <table>
     <tr>
         <td>
-            <textarea id="input" rows="25" cols="80" style="font-size: 10pt;">function move(board) {
+            <textarea id="inputLeft" rows="25" cols="80" style="font-size: 10pt;">function move(board) {
   return board.chooseRandom(board.empty);
 }</textarea>
             <!--
@@ -38,6 +38,7 @@ function move(board) {
         <td>
             <table>
                 <tr>
+                    <td>
                     <table>
                         <tr>
                             <td>
@@ -94,18 +95,33 @@ function move(board) {
                             <td></td>
                         </tr>
                     </table>
+                    </td>
                 </tr>
             </table>
         </td>
-    </tr>
+        <td>
+            <textarea id="inputRight" rows="25" cols="80" style="font-size: 10pt;">function move(board) {
+  return board.chooseRandom(board.empty);
+}</textarea>
+            <!--
+function move(board) {
+  for (i=0;i<board.lines.length;++i) {
+    var line = board.lines[i];
+    if (line.occupiedByMe.length == 2 && line.empty.length == 1) return line.empty[0];
+  }
+  return board.chooseRandom(board.empty);
+}
+            -->
+        </td>
+        </tr>
     <tr>
         <td>
             <div><pre>
 Check all three-in-a-row lines: <b>
-                for (i=0&#59;i&LT;board.lines.length&#59;++i) {
-                var line = board.lines[i];
-                ...
-                }
+  for (i=0&#59;i&LT;board.lines.length&#59;++i) {
+    var line = board.lines[i];
+    ...
+  }
             </b>
 Empty spaces in the line: <b>line.empty</b>
 Spaces occupied by computer in the line: <b>line.occupiedByMe</b>

@@ -13,12 +13,24 @@
 
 
 </script>
-<button id="startGame">New Game</button>
+<table style="width:100%;">
+    <tr>
+        <td><a href="HumanVsHuman.html">Human vs Human</a></td>
+        <td align="center"><a href="HumanVsComputer.html">Human vs Computer</a></td>
+        <td align="right"><a  href="ComputerVsComputer.html">Computer vs Computer</a></td>
+    </tr>
+</table>
+
 <table>
     <tr>
-        <td>Type 1-9 to make a move: <input id="move" size="1" disabled="true"/></td>
         <td>
-            <table>
+            <div id="status">Press Start Game to begin</div>
+        </td>
+    </tr>
+
+    <tr>
+        <td align="center">
+            <table style="height: 50px; width: 50px;font-size: 24pt;">
                 <tr>
                     <td>
                         <div id="cell0">1</div>
@@ -54,6 +66,15 @@
                 </tr>
             </table>
         </td>
+    </tr>
+    <tr>
+        <td>
+            <button id="startGame">Start Game</button>
+            Your move: <input id="move" size="1" disabled="true"/>
+        </td>
+    </tr>
+    <tr>
+        <td></td>
     </tr>
 </table>
 </body>

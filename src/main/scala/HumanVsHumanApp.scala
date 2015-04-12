@@ -26,9 +26,12 @@ object HumanVsHumanApp extends JSApp {
     jQuery("#move").value("")
     game.result match {
       case FIRST_PLAYER_WIN =>
+        status("X wins!!")
         jQuery("#move").prop("disabled",true)
       case SECOND_PLAYER_WIN =>
         jQuery("#move").prop("disabled",true)
+        status("O wins!!")
+      case DRAW => status("Draw")
       case _ => ()
     }
   }

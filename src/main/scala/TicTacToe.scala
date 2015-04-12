@@ -1,3 +1,5 @@
+import org.scalajs.jquery._
+
 import scala.collection.mutable.ListBuffer
 
 object TicTacToe {
@@ -216,5 +218,7 @@ object TicTacToe {
     }
     robot
   }
+
+  def status(msg: String) = jQuery("#status").text(msg)
 }
   

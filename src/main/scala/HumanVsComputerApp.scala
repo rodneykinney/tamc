@@ -74,8 +74,6 @@ object HumanVsComputerApp extends js.JSApp {
     jQuery("#move").value("")
   }
 
-  def status(msg: String) = jQuery("#status").text(msg)
-
   def gameOver(result: Int) = {
     val msg = result match {
       case _ if result == computerPlayer => "Computer player wins!!"
