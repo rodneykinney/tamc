@@ -18,6 +18,7 @@ object HumanVsHumanApp extends JSApp {
   def startGame(event: JQueryEventObject) = {
     game = new Game()
     jQuery("#move").prop("disabled",false)
+    status("")
   }
 
   def addMove(event: JQueryEventObject) = {
