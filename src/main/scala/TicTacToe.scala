@@ -19,22 +19,26 @@ object TicTacToe {
 
   val rand = new scala.util.Random
 
-  def selectMove(gameState: Seq[Int], choices: Seq[Int], weights: Robot) = {
-
+  def selectMove(gameState: Seq[Int], choices: Seq[Int], weights: Robot): Int = {
     val choiceWeights = choices.map(c => weights.withDefaultValue(1.0)((gameState, c)))
     val totalWeights = choiceWeights.sum
-    val cumulativeWeights = choiceWeights.zipWithIndex.map {
-      case (choice, i) => choiceWeights.take(i + 1).sum
+    if (totalWeights == 0) {
+      selectMove(gameState, choices, Map().withDefaultValue(1.0))
     }
-    val toss = rand.nextDouble() * totalWeights
-    val selectionList = choices.zip(cumulativeWeights).dropWhile(toss >= _._2)
-    if (selectionList.isEmpty) {
-      println(s"choices = $choices")
-      println(s"cumulativeWeights = $cumulativeWeights")
-      println(s"toss = $toss")
+    else {
+      val cumulativeWeights = choiceWeights.zipWithIndex.map {
+        case (choice, i) => choiceWeights.take(i + 1).sum
+      }
+      val toss = rand.nextDouble() * totalWeights
+      val selectionList = choices.zip(cumulativeWeights).dropWhile(toss >= _._2)
+      if (selectionList.isEmpty) {
+        println(s"choices = $choices")
+        println(s"cumulativeWeights = $cumulativeWeights")
+        println(s"toss = $toss")
+      }
+      val selection = selectionList.head._1
+      selection
     }
-    val selection = selectionList.head._1
-    selection
   }
 
   val FIRST_PLAYER_WIN = 1

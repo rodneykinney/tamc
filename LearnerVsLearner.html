@@ -9,7 +9,7 @@
 <script type="text/javascript" src="./target/scala-2.11/tictactoe-fastopt.js"></script>
 <script type="text/javascript" src="./target/scala-2.11/tictactoe-jsdeps.js"></script>
 <script type="text/javascript">
-      ComputerVsComputerApp().main();
+      LearnerVsLearnerApp().main();
 </script>
 <table style="width:100%;">
     <tr>
@@ -17,10 +17,9 @@
         <td align="center"><a href="HumanVsComputer.html">Human vs Computer</a><br>
             <a href="HumanVsLearner.html">Human vs Learning Computer</a>
         </td>
-        <td align="right"><b>Computer vs Computer</b>
-            <br>
+        <td align="right"><a  href="ComputerVsComputer.html">Computer vs Computer</a><br>
             <a href="ComputerVsLearner.html">Computer vs Learning Computer</a>
-            <br><a href="LearnerVsLearner.html">Learning Computer vs Learning Computer</a>
+            <br><b>Learning Computer vs Learning Computer</b>
         </td>
     </tr>
 </table>
@@ -28,18 +27,9 @@
 <table>
     <tr>
         <td>
-            <textarea id="inputLeft" rows="25" cols="80" style="font-size: 10pt;">function move(board) {
-  return board.chooseRandom(board.empty);
+            <textarea id="inputLeft" rows="25" cols="80" style="font-size: 10pt;">function newWeight(won, lost, oldWeight, moveNumber, gameLength) {
+  return oldWeight;
 }</textarea>
-            <!--
-function move(board) {
-  for (i=0;i<board.lines.length;++i) {
-    var line = board.lines[i];
-    if (line.occupiedByMe.length == 2 && line.empty.length == 1) return line.empty[0];
-  }
-  return board.chooseRandom(board.empty);
-}
-            -->
         </td>
         <td>
             <table>
@@ -106,18 +96,9 @@ function move(board) {
             </table>
         </td>
         <td align="right    ">
-            <textarea id="inputRight" rows="25" cols="80" style="font-size: 10pt;">function move(board) {
-  return board.chooseRandom(board.empty);
+            <textarea id="inputRight" rows="25" cols="80" style="font-size: 10pt;">function newWeight(won, lost, oldWeight, moveNumber, gameLength) {
+  return oldWeight;
 }</textarea>
-            <!--
-function move(board) {
-  for (i=0;i<board.lines.length;++i) {
-    var line = board.lines[i];
-    if (line.occupiedByMe.length == 2 && line.empty.length == 1) return line.empty[0];
-  }
-  return board.chooseRandom(board.empty);
-}
-            -->
         </td>
         </tr>
     <tr>
