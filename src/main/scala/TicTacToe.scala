@@ -9,10 +9,10 @@ object TicTacToe {
   type RobotTrainer = RobotTrainingData => Robot
 
   case class RobotTrainingData(
-                                robot: Robot,
-                                moveHistory: Seq[(Seq[Int], Int)],
-                                won: Boolean,
-                                lost: Boolean)
+    robot: Robot,
+    moveHistory: Seq[(Seq[Int], Int)],
+    won: Boolean,
+    lost: Boolean)
 
   def validMoves(gameState: Seq[Int]): Seq[Int] =
     gameState.zipWithIndex.filter(_._1 == 0).map(_._2)
@@ -27,7 +27,13 @@ object TicTacToe {
       case (choice, i) => choiceWeights.take(i + 1).sum
     }
     val toss = rand.nextDouble() * totalWeights
-    val selection = choices.zip(cumulativeWeights).dropWhile(toss >= _._2).head._1
+    val selectionList = choices.zip(cumulativeWeights).dropWhile(toss >= _._2)
+    if (selectionList.isEmpty) {
+      println(s"choices = $choices")
+      println(s"cumulativeWeights = $cumulativeWeights")
+      println(s"toss = $toss")
+    }
+    val selection = selectionList.head._1
     selection
   }
 
@@ -176,7 +182,9 @@ object TicTacToe {
 
   def noopTrainer(data: RobotTrainingData) = data.robot
 
-  val noopTrainer2 = trainRobot { info => info.oldWeight} _
+  val noopWeightUpdater: WeightUpdater = (_, _, _, _, oldWeight) => oldWeight
+
+  val noopTrainer2: RobotTrainer = trainRobot(noopWeightUpdater)
 
   def simpleTrainer(data: RobotTrainingData) = {
     var robot = data.robot
@@ -195,25 +203,23 @@ object TicTacToe {
     robot
   }
 
-  val simpleTrainer2 = trainRobot { info =>
-    (info.won, info.lost) match {
-      case (true, false) => info.oldWeight + 1
-      case (false, true) => info.oldWeight * 0.5
-      case _ => info.oldWeight
+  val simpleTrainer2 = trainRobot { (won, lost, oldWeight, _, _) =>
+    (won, lost) match {
+      case (true, false) => oldWeight + 1
+      case (false, true) => oldWeight * 0.5
+      case _ => oldWeight
     }
   } _
 
 
-  case class MoveInfo(gameLength: Int, moveNumber: Int, won: Boolean, lost: Boolean, oldWeight: Double)
-
-  type WeightUpdater = MoveInfo => Double
+  type WeightUpdater = (Boolean, Boolean, Double, Int, Int) => Double
 
   def trainRobot(updater: WeightUpdater)(data: RobotTrainingData) = {
-    var robot = data.robot.withDefaultValue(1.0)
+    var robot = data.robot
     val gameLength = data.moveHistory.size
     for (((state, move), moveNum) <- data.moveHistory.zipWithIndex) {
-      val info = MoveInfo(gameLength, moveNum, data.won, data.lost, robot((state, move)))
-      val newWeight = updater(info)
+      val newWeight =
+        math.min(Double.MaxValue, updater(data.won, data.lost, robot((state, move)), gameLength, moveNum))
       robot = robot.updated((state, move), newWeight)
     }
     robot

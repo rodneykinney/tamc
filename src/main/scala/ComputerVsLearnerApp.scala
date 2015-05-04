@@ -6,7 +6,9 @@ import scala.scalajs.js
 object ComputerVsLearnerApp extends ComputerVsComputer with js.JSApp {
 
   var robot: Robot = Map().withDefaultValue(1.0)
-  var trainer: RobotTrainer = simpleTrainer
+  var weightUpdater: WeightUpdater =
+    (won: Boolean, lost: Boolean, oldWeight: Double, moveNumber, gameLength) =>
+      js.Dynamic.global.chooseMoveRight(won, lost, oldWeight, moveNumber, gameLength).asInstanceOf[Double]
 
   override def chooseMoveRight = {
     val state = game.gameState
@@ -20,7 +22,8 @@ object ComputerVsLearnerApp extends ComputerVsComputer with js.JSApp {
         game.playerWon(rightPlayerId),
         game.playerMoveHistory(leftPlayerId),
         game.playerMoveHistory(rightPlayerId))
-    robot = trainer(RobotTrainingData(robot, rightPlayerHistory, rightWin, leftWin))
+    val trainData = RobotTrainingData(robot, rightPlayerHistory, rightWin, leftWin)
+    robot = trainRobot(weightUpdater)(trainData)
     (leftPlayerId, rightPlayerId)
   }
 

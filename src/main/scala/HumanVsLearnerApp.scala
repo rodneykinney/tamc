@@ -9,7 +9,9 @@ import scala.scalajs.js
 object HumanVsLearnerApp extends HumanVsComputer with js.JSApp {
   var robot: Robot = Map().withDefaultValue(1.0)
 
-  var trainer: RobotTrainer = simpleTrainer
+  var weightUpdater: WeightUpdater =
+    (won: Boolean, lost: Boolean, oldWeight: Double, moveNumber, gameLength) =>
+      js.Dynamic.global.chooseMove(won, lost, oldWeight, moveNumber, gameLength).asInstanceOf[Double]
 
   val wView = new WeightView
 
@@ -28,7 +30,7 @@ object HumanVsLearnerApp extends HumanVsComputer with js.JSApp {
         game.playerWon(computerPlayer),
         game.playerWon(3 - computerPlayer)
       )
-    robot = trainer(trainData)
+    robot = trainRobot(weightUpdater)(trainData)
   }
 
   override def startGame(event: JQueryEventObject) = {
