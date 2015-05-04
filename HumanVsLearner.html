@@ -9,41 +9,30 @@
 <script type="text/javascript" src="./target/scala-2.11/tictactoe-fastopt.js"></script>
 <script type="text/javascript" src="./target/scala-2.11/tictactoe-jsdeps.js"></script>
 <script type="text/javascript">
-      ComputerVsComputerApp().main();
+      HumanVsLearnerApp().main();
+
 </script>
 <table style="width:100%;">
     <tr>
         <td><a href="HumanVsHuman.html">Human vs Human</a></td>
         <td align="center"><a href="HumanVsComputer.html">Human vs Computer</a><br>
-            <a href="HumanVsLearner.html">Human vs Learning Computer</a>
+        <b>Human vs Learning Computer</b>
         </td>
-        <td align="right"><b>Computer vs Computer</b>
-            <br>
+        <td align="right"><a  href="ComputerVsComputer.html">Computer vs Computer</a><br>
             <a href="ComputerVsLearner.html">Computer vs Learning Computer</a>
         </td>
     </tr>
 </table>
-
 <table>
     <tr>
         <td>
-            <textarea id="inputLeft" rows="25" cols="80" style="font-size: 10pt;">function move(board) {
+            <textarea id="input" rows="25" cols="80" style="font-size: 10pt;">function move(board) {
   return board.chooseRandom(board.empty);
 }</textarea>
-            <!--
-function move(board) {
-  for (i=0;i<board.lines.length;++i) {
-    var line = board.lines[i];
-    if (line.occupiedByMe.length == 2 && line.empty.length == 1) return line.empty[0];
-  }
-  return board.chooseRandom(board.empty);
-}
-            -->
         </td>
         <td>
             <table>
                 <tr>
-                    <td>
                     <table>
                         <tr>
                             <td>
@@ -89,52 +78,70 @@ function move(board) {
                                     </tr>
                                 </table>
                             </td>
+
                         </tr>
                         <tr>
                             <td>
-                                <button id="playGame">Play Game</button><br>
-                                <button id="playMatch">Play Match</button><br>
+                                <button id="startGame">Start Game</button>
+                                Your move: <input id="move" size="1" disabled="true"/>
                             </td>
                         </tr>
                         <tr>
-                            <td></td>
+                            <td align="center">
+                                <table style="height: 50px; width: 50px;font-size: 12pt;">
+                                    <tr>
+                                        <td>
+                                            <div id="wcell0">-</div>
+                                        </td>
+                                        <td>
+                                            <div id="wcell1">-</div>
+                                        </td>
+                                        <td>
+                                            <div id="wcell2">-</div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div id="wcell3">-</div>
+                                        </td>
+                                        <td>
+                                            <div id="wcell4">-</div>
+                                        </td>
+                                        <td>
+                                            <div id="wcell5">-</div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div id="wcell6">-</div>
+                                        </td>
+                                        <td>
+                                            <div id="wcell7">-</div>
+                                        </td>
+                                        <td>
+                                            <div id="wcell8">-</div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
                         </tr>
                     </table>
-                    </td>
                 </tr>
             </table>
         </td>
-        <td align="right    ">
-            <textarea id="inputRight" rows="25" cols="80" style="font-size: 10pt;">function move(board) {
-  return board.chooseRandom(board.empty);
-}</textarea>
-            <!--
-function move(board) {
-  for (i=0;i<board.lines.length;++i) {
-    var line = board.lines[i];
-    if (line.occupiedByMe.length == 2 && line.empty.length == 1) return line.empty[0];
-  }
-  return board.chooseRandom(board.empty);
-}
-            -->
-        </td>
-        </tr>
+    </tr>
     <tr>
         <td>
             <div><pre>
 Check all three-in-a-row lines: <b>
-  for (i=0&#59;i&LT;8&#59;i+=1) {
-    var line = board.lines[i];
-    ...
+ for (i=0&#59;i&LT;8&#59;i+=1) {
+   var line = board.lines[i];
+   ...
   }
             </b>
 Empty spaces in the line: <b>line.empty</b>
 Spaces occupied by computer in the line: <b>line.occupiedByMe</b>
 Spaces occupied by human in the line: <b>line.occupiedByOpponent</b>
-
-Empty spaces on the board: <b>board.empty</b>
-Spaces occupied by computer on the board: <b>board.occupiedByMe</b>
-Spaces occupied by human on the board: <b>board.occupiedByOpponent</b>
 
 Empty spaces on the board: <b>board.empty</b>
 Spaces occupied by computer on the board: <b>board.occupiedByMe</b>

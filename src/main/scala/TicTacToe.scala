@@ -9,7 +9,7 @@ object TicTacToe {
   type RobotTrainer = RobotTrainingData => Robot
 
   case class RobotTrainingData(
-                                player: Robot,
+                                robot: Robot,
                                 moveHistory: Seq[(Seq[Int], Int)],
                                 won: Boolean,
                                 lost: Boolean)
@@ -63,7 +63,7 @@ object TicTacToe {
 
   def playGame(player1: Robot, player2: Robot) = {
     var state: Seq[Int] = initialState
-    var gameHistory = new ListBuffer[(Seq[Int], Int)]
+    val gameHistory = new ListBuffer[(Seq[Int], Int)]
     var result = IN_PROGRESS
     var player = player1
     var playerId = 1
@@ -81,12 +81,12 @@ object TicTacToe {
         playerId = 1
       }
     }
-    (result, gameHistory)
+    (result, gameHistory.toList)
   }
 
   def playTournament(trainer1: RobotTrainer, trainer2: RobotTrainer) = {
-    var robot1: Robot = Map()
-    var robot2: Robot = Map()
+    var robot1: Robot = Map().withDefaultValue(1.0)
+    var robot2: Robot = Map().withDefaultValue(1.0)
     var gamesPlayed = 0
     val player1ScoreHistory = new ListBuffer[Int]
     var player2ScoreHistory = new ListBuffer[Int]
@@ -174,23 +174,23 @@ object TicTacToe {
 
   }
 
-  def noopTrainer(data: RobotTrainingData) = data.player
+  def noopTrainer(data: RobotTrainingData) = data.robot
 
   val noopTrainer2 = trainRobot { info => info.oldWeight} _
 
   def simpleTrainer(data: RobotTrainingData) = {
-    var robot = data.player.withDefaultValue(1.0)
+    var robot = data.robot
     (data.won, data.lost) match {
       case (true, false) =>
         for ((state, move) <- data.moveHistory) {
-          robot = robot.updated((state, move), robot((state, move)) * 0.5)
+          robot = robot.updated((state, move), robot((state, move)) + 1.0)
         }
       case (false, true) =>
         for ((state, move) <- data.moveHistory) {
-          robot = robot.updated((state, move), robot((state, move)) + 1.0)
+          robot = robot.updated((state, move), robot((state, move)) * 0.5)
         }
       case _ =>
-        data.player
+        data.robot
     }
     robot
   }
@@ -209,7 +209,7 @@ object TicTacToe {
   type WeightUpdater = MoveInfo => Double
 
   def trainRobot(updater: WeightUpdater)(data: RobotTrainingData) = {
-    var robot = data.player.withDefaultValue(1.0)
+    var robot = data.robot.withDefaultValue(1.0)
     val gameLength = data.moveHistory.size
     for (((state, move), moveNum) <- data.moveHistory.zipWithIndex) {
       val info = MoveInfo(gameLength, moveNum, data.won, data.lost, robot((state, move)))

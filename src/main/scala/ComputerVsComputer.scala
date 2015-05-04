@@ -1,15 +1,17 @@
-import scala.scalajs.js
-import scala.util.Random
+import TicTacToe._
 import org.scalajs.jquery._
 
-import TicTacToe._
+import scala.collection.mutable.ListBuffer
+import scala.scalajs.js
+import scala.util.Random
 
-object ComputerVsComputerApp extends js.JSApp {
+object ComputerVsComputerApp extends ComputerVsComputer with js.JSApp
+
+class ComputerVsComputer {
 
   val rand = new Random()
 
   var game: Game = _
-
 
   def main(): Unit = {
     jQuery(setupUI _)
@@ -27,7 +29,19 @@ object ComputerVsComputerApp extends js.JSApp {
     jQuery("#playMatch").click(playMatch _)
   }
 
-  def playGame(): (Boolean, Boolean) = {
+  def chooseMoveLeft = {
+    js.Dynamic.global.chooseMoveLeft(new Board(game.gameState.toArray, 1)
+      .asInstanceOf[js.Any]).asInstanceOf[Int] - 1
+  }
+
+  def chooseMoveRight = {
+    js.Dynamic.global.chooseMoveRight(new Board(game.gameState.toArray, 2)
+      .asInstanceOf[js.Any]).asInstanceOf[Int] - 1
+  }
+
+  type MoveChoiceHistory = List[(Seq[Int], Int)]
+
+  def playGame(): (Int, Int) = {
     jQuery("#playGame").prop("disabled", true)
     jQuery("#playMatch").prop("disabled", true)
     status("")
@@ -37,18 +51,14 @@ object ComputerVsComputerApp extends js.JSApp {
     val (leftPlayer, player1Move, player2Move) =
       if (rand.nextDouble < 0.5) {
         (1,
-          () => js.Dynamic.global.chooseMoveLeft(new Board(game.gameState.toArray, 1)
-            .asInstanceOf[js.Any]).asInstanceOf[Int] - 1,
-          () => js.Dynamic.global.chooseMoveRight(new Board(game.gameState.toArray, 2)
-            .asInstanceOf[js.Any]).asInstanceOf[Int] - 1
+          () => chooseMoveLeft,
+          () => chooseMoveRight
           )
       }
       else {
         (2,
-          () => js.Dynamic.global.chooseMoveRight(new Board(game.gameState.toArray, 1)
-            .asInstanceOf[js.Any]).asInstanceOf[Int] - 1,
-          () => js.Dynamic.global.chooseMoveLeft(new Board(game.gameState.toArray, 2)
-            .asInstanceOf[js.Any]).asInstanceOf[Int] - 1
+          () => chooseMoveRight,
+          () => chooseMoveLeft
           )
       }
     val rightPlayer = 3 - leftPlayer
@@ -56,7 +66,7 @@ object ComputerVsComputerApp extends js.JSApp {
     val nextMove = Array(player1Move, player2Move)
     while (result == IN_PROGRESS) {
       try {
-        val move = nextMove(currentPlayer-1)()
+        val move = nextMove(currentPlayer - 1)()
         game.move(move)
         result = game.result
       }
@@ -73,19 +83,22 @@ object ComputerVsComputerApp extends js.JSApp {
     gameOver(leftWin, rightWin, symbol(leftPlayer), symbol(rightPlayer))
     jQuery("#playGame").prop("disabled", false)
     jQuery("#playMatch").prop("disabled", false)
-    (leftWin, rightWin)
+    (leftPlayer, rightPlayer)
   }
-  
-  def playMatch(): Unit = {
+
+  def playMatch(): (List[Int], List[Int]) = {
     val count = 1000
-    var leftWins = 0
-    var rightWins = 0
+    val leftWinHistory = new ListBuffer[Int]
+    val rightWinHistory = new ListBuffer[Int]
     for (i <- Range(0, count)) {
-      val (l,r) = playGame()
-      if (l) leftWins += 1
-      if (r) rightWins += 1
-    } 
+      val (l, r) = playGame()
+      leftWinHistory += (if (game.playerWon(l)) 1 else 0)
+      rightWinHistory += (if (game.playerWon(r)) 1 else 0)
+    }
+    val leftWins = leftWinHistory.sum
+    val rightWins = rightWinHistory.sum
     status(s"Left won $leftWins, Right won $rightWins, Draw ${count - leftWins - rightWins}")
+    (leftWinHistory.toList, rightWinHistory.toList)
   }
 
   def gameOver(leftWin: Boolean, rightWin: Boolean, leftSymbol: Character, rightSymbol: Character):

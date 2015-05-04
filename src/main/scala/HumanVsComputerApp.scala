@@ -1,14 +1,14 @@
 import TicTacToe._
 import org.scalajs.jquery._
 
-import scala.collection.mutable.ListBuffer
 import scala.scalajs.js
+import scala.scalajs.js.JSConverters._
 import scala.scalajs.js.annotation.JSExport
-import scala.scalajs.js.typedarray.ArrayBuffer
 import scala.util.Random
-import js.JSConverters._
 
-object HumanVsComputerApp extends js.JSApp {
+object HumanVsComputerApp extends HumanVsComputer with js.JSApp
+
+class HumanVsComputer {
 
   val rand = new Random()
 
@@ -29,11 +29,13 @@ object HumanVsComputerApp extends js.JSApp {
     jQuery("#startGame").prop("disabled", !isValid)
   }
 
+  def selectComputerPlayerMove(state: Seq[Int]) =
+    js.Dynamic.global.chooseMove(
+      new Board(state.toArray, computerPlayer).asInstanceOf[js.Any]).asInstanceOf[Int] - 1
+
   def computerPlayerMove(state: Seq[Int]) = {
     try {
-      val move = js.Dynamic.global.chooseMove(
-        new Board(state.toArray, computerPlayer).asInstanceOf[js.Any])
-        .asInstanceOf[Int] - 1
+      val move = selectComputerPlayerMove(state)
       if (!game.validMove(move)) {
         gameOver(3 - computerPlayer)
       }
@@ -67,7 +69,7 @@ object HumanVsComputerApp extends js.JSApp {
     jQuery("#move").value("")
   }
 
-  def gameOver(result: Int) = {
+  def gameOver(result: Int): Unit = {
     val msg = result match {
       case _ if result == computerPlayer => "Computer player wins!!"
       case _ if result == 3 - computerPlayer => "Human player wins!!"
@@ -86,7 +88,7 @@ object HumanVsComputerApp extends js.JSApp {
     }
   }
 
-  def startGame(event: JQueryEventObject) = {
+  def startGame(event: JQueryEventObject): Unit = {
     game = new Game()
     jQuery("#move").text("")
     jQuery("#move").prop("disabled", false)
